@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <queue>
+#include <iostream>
 
 using namespace std;
 
@@ -6,12 +8,13 @@ using namespace std;
 #define vvi vector<vi>
 
 // ============= Utility ===============
-vvi toAdj(vvi const& edges, int V) {
+vvi toAdj(vvi const& edges, int V, bool directed = false) {
 	vvi adj(V);
 
 	for (auto uv : edges) {
 		adj[uv[0]].push_back(uv[1]);
-		adj[uv[1]].push_back(uv[0]);
+		if (!directed)
+			adj[uv[1]].push_back(uv[0]);
 	}
 	return adj;
 }
@@ -26,13 +29,11 @@ void printAdj(vvi const& adj) {
 	}
 }
 
-vi makePath(vi const& path, int D)
-{
+vi makePath(vi const& path, int D) {
 	vi result;
-	int v = D;
-	while (v!=-1) {
-		result.push_back(v);
-		v = path[v];
+	while (D!=-1) {
+		result.push_back(D);
+		D = path[D];
 	}
 	reverse(result.begin(), result.end());
 	return result;
@@ -145,9 +146,63 @@ vi IDFS(vvi edges, int V, int S, int D) {
 }
 // ===========================================
 
+// =================SCC=======================
+void strongconnect(
+		int v,
+		int& idx,
+		vvi const& adj,
+		vi& index,
+		vi& lowlink,
+		vi& visited,
+		vi& onStack,
+		vi& stack,
+		vi& SCC,
+		vvi& SCCS)
+{
+	index[v]=lowlink[v]=idx++;
+	onStack[v]=visited[v]=true;
+	stack.push_back(v);
+
+	for (int w : adj[v]) {
+		if (!visited[w]) {
+			strongconnect(w, idx, adj, index, lowlink, visited, onStack, stack, SCC, SCCS);
+			lowlink[v] = min(lowlink[v], lowlink[w]);
+		}
+		else if (onStack[w]) {
+			lowlink[v] = min(lowlink[v], index[w]);
+		}
+	}
+
+	if (lowlink[v] == index[v]) {
+		while (!stack.empty()) {
+			int w = stack.back(); stack.pop_back();
+			onStack[w]=false;
+
+			SCC.push_back(w);
+
+			if (w == v) break;
+		}
+		SCCS.push_back(SCC);
+		SCC.clear();
+	}
+}
+
+// https://www.wikiwand.com/en/Tarjan%27s_strongly_connected_components_algorithm
+vvi tarjan(vvi edges, int V) {
+	vvi adj = toAdj(edges, V, true);
+
+	vvi SCCS; vi SCC;
+	vi stack, index(V), lowlink(V), onStack(V), visited(V);
+	int idx = 0;
+	for (int v = 0; v < V; ++v) {
+		if (!visited[v]) {
+			strongconnect(v, idx, adj, index, lowlink, visited, onStack, stack, SCC, SCCS);
+		}
+	}
+	return SCCS;
+}
+
 int main() {
-	int V = 8, S = 0, D = 5;
-	vector<vi> edges = {{0,1},{7,0},{4,7},{1,4},{6,5},{3,5},{0,3},{2,1},{3,7}, {2,6}};
 	/*
 	 * 4------7--
 	 * |      |   \
@@ -161,15 +216,18 @@ int main() {
 	 */
 
 	/*
-	  0: 1 7 3
-	  1: 0 4 2
-	  2: 1 6
-	  3: 5 0 7
-	  4: 7 1
-	  5: 6 3
-	  6: 5 2
-	  7: 0 4 3
-	*/
+	 * 0: 1 7 3
+	 * 1: 0 4 2
+	 * 2: 1 6
+	 * 3: 5 0 7
+	 * 4: 7 1
+	 * 5: 6 3
+	 * 6: 5 2
+	 * 7: 0 4 3
+	 */
+
+	int V = 8, S = 0, D = 5;
+	vector<vi> edges = {{0,1},{7,0},{4,7},{1,4},{6,5},{3,5},{0,3},{2,1},{3,7},{2,6}};
 
 	cout << "Graph:" << endl;
 	cout <<"4------7--" << endl;
@@ -204,10 +262,30 @@ int main() {
 		for (int i : path) {cout << i << " ";} cout << endl;
 	}
 
-	//TODO:
-	// 1. Bellman-Ford
-	// 2. Dijkstra
-	// 3. Floyd-Warshall
-	// 4. Tarjan
+	cout << "\nTarjan.\n";
+	{
+		/*
+		 * 0<-----1<-----4<---->5
+		 * ^    ^ ^      ^      ^
+		 * |  /   |      |      |
+		 * |/     |      |      |
+		 * 2<-----3<---->6<-----7<---
+		 *                      |   |
+		 *                      -----
+		 */
+		cout << "0<-----1<-----4<---->5\n";
+		cout << "|    ^ ^      ^      ^\n";
+		cout << "|  /   |      |      |\n";
+		cout << "v/     |      |      |\n";
+		cout << "2<-----3<---->6<-----7<---\n";
+		cout << "                     |   |\n";
+		cout << "                     -----\n";
+		int V = 8;
+		vvi edges = {{0,2},{2,1},{1,0},{3,2},{3,1},{3,6},{6,3},{6,4},{4,1},{4,5},{5,4},{7,6},{7,5},{7,7}};
+		cout << "SCC: \n";
+		vvi SCC = tarjan(edges, V);
+		printAdj(SCC);
+	}
+
 	return 0;
 }
