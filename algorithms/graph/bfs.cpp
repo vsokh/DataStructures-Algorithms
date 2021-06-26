@@ -32,8 +32,8 @@ std::vector<std::vector<int>> toAdj(
 		bool directed = false)
 {
 	std::vector<std::vector<int>> adj(V);
-
-	for (auto uv : edges) {
+	for (auto uv : edges)
+	{
 		adj[uv[0]].push_back(uv[1]);
 		if (!directed)
 			adj[uv[1]].push_back(uv[0]);
@@ -43,9 +43,11 @@ std::vector<std::vector<int>> toAdj(
 
 void printAdj(std::vector<std::vector<int>> const& adj)
 {
-	for (int u = 0; u < adj.size(); ++u) {
+	for (int u = 0; u < adj.size(); ++u)
+	{
 		std::cout << u << ": ";
-		for (int v = 0; v < adj[u].size(); ++v) {
+		for (int v = 0; v < adj[u].size(); ++v)
+		{
 			std::cout << adj[u][v] << " ";
 		}
 		std::cout << std::endl;
@@ -55,7 +57,8 @@ void printAdj(std::vector<std::vector<int>> const& adj)
 std::vector<int> makePath(std::vector<int> const& path, int D)
 {
 	std::vector<int> result;
-	while (D!=-1) {
+	while (D!=-1)
+	{
 		result.push_back(D);
 		D = path[D];
 	}
@@ -74,14 +77,17 @@ std::vector<int> bfs(
 
 	std::queue<int> q; q.push(S);
 
-	while (!q.empty()) {
+	while (!q.empty())
+	{
 		int u = q.front(); q.pop();
 
 		if (u == D) break;
 		if (visited[u]) continue;
 
-		for (int v : adj[u]) {
-			if (!visited[v]) {
+		for (int v : adj[u])
+		{
+			if (!visited[v])
+			{
 				if (path[v]==-1)
 					path[v]=u;
 				q.push(v);
