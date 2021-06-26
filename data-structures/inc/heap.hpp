@@ -5,7 +5,7 @@
 //   - https://www.wikiwand.com/en/Binary_heap#/Building_a_heap
 //   - https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/lecture-4-heaps-and-heap-sort/
 
-// Implemented as MinHeap
+// Implemented as MaxHeap
 class Heap {
 	public:
 		Heap(std::vector<int> _A);
