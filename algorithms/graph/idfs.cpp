@@ -1,16 +1,23 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
+void printPath(std::vector<int> v)
+{
+	for (int i : v)
+	{
+		std::cout << i << " ";
+	}
+	std::cout << std::endl;
+}
 
-vector<vector<int>> toAdj(
-		vector<vector<int>> const& edges,
+std::vector<std::vector<int>> toAdj(
+		std::vector<std::vector<int>> const& edges,
 		int V,
 		bool directed = false)
 {
-	vector<vector<int>> adj(V);
-
-	for (auto uv : edges) {
+	std::vector<std::vector<int>> adj(V);
+	for (auto uv : edges)
+	{
 		adj[uv[0]].push_back(uv[1]);
 		if (!directed)
 			adj[uv[1]].push_back(uv[0]);
@@ -18,40 +25,47 @@ vector<vector<int>> toAdj(
 	return adj;
 }
 
-void printAdj(vector<vector<int>> const& adj)
+void printAdj(std::vector<std::vector<int>> const& adj)
 {
-	for (int u = 0; u < adj.size(); ++u) {
-		cout << u << ": ";
-		for (int v = 0; v < adj[u].size(); ++v) {
-			cout << adj[u][v] << " ";
+	for (int u = 0; u < adj.size(); ++u)
+	{
+		std::cout << u << ": ";
+		for (int v = 0; v < adj[u].size(); ++v)
+		{
+			std::cout << adj[u][v] << " ";
 		}
-		cout << endl;
+		std::cout << std::endl;
 	}
 }
 
-vector<int> idfs(vector<vector<int>> const& edges, int V, int S, int D) {
-	vector<vector<int>> adj = toAdj(edges, V);
-	vector<int> path, tmpPath;
-	vector<int> visited(V); visited[S]=1;
-	vector<int> stack; stack.push_back(S);
-	while (!stack.empty()) {
+std::vector<int> idfs(std::vector<std::vector<int>> const& edges, int V, int S, int D) {
+	std::vector<std::vector<int>> adj = toAdj(edges, V);
+	std::vector<int> path, tmpPath;
+	std::vector<int> visited(V); visited[S]=1;
+	std::vector<int> stack; stack.push_back(S);
+	while (!stack.empty())
+	{
 		int u = stack.back();
 
-		if (visited[u]==2) {
+		if (visited[u]==2)
+		{
 			stack.pop_back();
 			continue;
 		}
 
 		tmpPath.push_back(u);
-		if (u == D) {
+		if (u == D)
+		{
 			path = path.empty() || tmpPath.size() < path.size() ? tmpPath : path;
 			tmpPath.clear();
 			stack.pop_back();
 			continue;
 		}
 
-		for (int v : adj[u]) {
-			if (!visited[v]) {
+		for (int v : adj[u])
+		{
+			if (!visited[v])
+			{
 				visited[v]=1;
 				stack.push_back(v);
 			}
@@ -61,48 +75,31 @@ vector<int> idfs(vector<vector<int>> const& edges, int V, int S, int D) {
 	return path;
 }
 
-int main() {
-	/*
-	 * 4------7--
-	 * |      |   \
-	 * |      |    |
-	 * 1------0----3
-	 * |           |
-	 * 2--         5
-	 *    \        |
-	 *     \       |
-	 *      \------6
-	 */
+int main()
+{
+	std::cout << "Graph: \n";
+	auto const graph =
+		"4------7--\n"
+		"|      |   \\\n"
+		"|      |    |\n"
+		"1------0----3\n"
+		"|           |\n"
+		"2--         5\n"
+		"    \\       |\n"
+		"      ------6\n";
+	std::cout << graph;
 
-	/*
-	 * 0: 1 7 3
-	 * 1: 0 4 2
-	 * 2: 1 6
-	 * 3: 5 0 7
-	 * 4: 7 1
-	 * 5: 6 3
-	 * 6: 5 2
-	 * 7: 0 4 3
-	 */
-
+	std::cout << "\nIDFS.\n";
+	std::vector<std::vector<int>> const edges =
+		{{0,1},{7,0},{4,7},{1,4},{6,5},{3,5},{0,3},{2,1},{3,7},{2,6}};
 	int V = 8, S = 0, D = 5;
-	vector<vector<int>> edges = {{0,1},{7,0},{4,7},{1,4},{6,5},{3,5},{0,3},{2,1},{3,7},{2,6}};
 
-	cout << "Graph:" << endl;
-	cout <<"4------7--" << endl;
-	cout <<"|      |   \\" << endl;
-	cout <<"|      |    |" << endl;
-	cout <<"1------0----3" << endl;
-	cout <<"|           |" << endl;
-	cout <<"2--         5" << endl;
-	cout <<"    \\       |" << endl;
-	cout <<"      ------6" << endl;
-	cout << "Adj: \n";
-	vector<vector<int>> adj = toAdj(edges, V); printAdj(adj);
+	auto adj = toAdj(edges, V);
+	std::cout << "Adj: \n"; printAdj(adj);
 
-	cout << "\nIDFS.\n";
-	vector<int> path = idfs(edges, V, S, D);
-	cout << "Path: ";
-	for (int i : path) {cout << i << " ";} cout << endl;
+	auto path = idfs(edges, V, S, D);
+	std::cout << "Path: "; printPath(path);
+
 	return 0;
 }
+
