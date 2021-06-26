@@ -1,13 +1,11 @@
-#include <vector>
 #include <iostream>
 #include <algorithm>
-
-using namespace std;
+#include "../inc/heap.hpp"
 
 // Resources:
 //   - https://www.wikiwand.com/en/Binary_heap#/Building_a_heap
 //   - https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/lecture-4-heaps-and-heap-sort/
-Heap::Heap(vector<int> _A) : A(_A)
+Heap::Heap(std::vector<int> _A) : A(_A)
 { heapify(); }
 
 void Heap::siftDown(int i)
@@ -23,8 +21,17 @@ void Heap::siftDown(int i)
 		largest = right;
 
 	if (largest != i) {
-		swap(A[i], A[largest]);
+		std::swap(A[i], A[largest]);
 		siftDown(largest);
+	}
+}
+
+void Heap::siftUp(int i)
+{
+	int parent = i/2;
+	if (A[parent] < A[i]) {
+		std::swap(A[i], A[parent]);
+		siftUp(parent);
 	}
 }
 
@@ -35,22 +42,30 @@ void Heap::heapify()
 }
 
 void Heap::push(int x)
-{ A.push_back(x); heapify(); }
-
-bool Heap::empty()
-{ return A.empty(); }
-
-int Heap::top()
-{ return A.front(); }
-
-void Heap::print()
-{ for (int i : A) { cout << i << " "; } cout << endl; }
+{
+	A.push_back(x);
+	siftUp(A.size()-1);
+}
 
 void Heap::pop()
 {
 	if (A.empty()) return;
 
-	swap(A[0], A[A.size()-1]);
+	std::swap(A[0], A[A.size()-1]);
 	A.pop_back();
-	heapify();
+	siftDown(0);
 }
+
+int Heap::top()
+{ return A.front(); }
+
+bool Heap::empty()
+{ return A.empty(); }
+
+void Heap::print()
+{
+	for (int i : A)
+		std::cout << i << " ";
+	std::cout << std::endl;
+}
+

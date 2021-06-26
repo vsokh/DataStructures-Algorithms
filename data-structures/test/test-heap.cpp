@@ -1,10 +1,10 @@
 #include <vector>
-
-using namespace std;
+#include <iostream>
+#include "../inc/heap.hpp"
 
 int main()
 {
-	cout << "Heap.\n";
+	std::cout << "Heap.\n";
 	Heap h({4,3,1,7,5});
 	h.print();
 
@@ -21,6 +21,9 @@ int main()
 	h.print();
 
 	h.pop();
+	h.print();
+
+	h.push(15);
 	h.print();
 	return 0;
 }

@@ -1,9 +1,10 @@
+#include "../../../data-structures/inc/heap.hpp"
 #include <vector>
-#include "../data-structures/heap.hpp"
+#include <iostream>
 
 // Resources:
 //   - https://www.wikiwand.com/en/Heapsort
-void heapsort(vector<int>& A)
+void heapsort(std::vector<int>& A)
 {
 	Heap h(A);
 	int end = A.size();
@@ -14,15 +15,16 @@ void heapsort(vector<int>& A)
 
 int main()
 {
-	auto printV = [](vector<int> const& A) {
-		for (int i : A) cout << i << " ";
-		cout << endl;
+	auto printV = [](std::vector<int> const& A) {
+		for (int i : A)
+			std::cout << i << " ";
+		std::cout << std::endl;
 	};
 
-	cout << "Heapsort." << endl;
-	vector<int> v{4,3,1,7,5};
-	cout << "Before: "; printV(v);
+	std::cout << "Heapsort.\n";
+	std::vector<int> v{4,3,1,7,5};
+	std::cout << "Before: "; printV(v);
 	heapsort(v);
-	cout << "After: "; printV(v);
+	std::cout << "After: "; printV(v);
 	return 0;
 }
