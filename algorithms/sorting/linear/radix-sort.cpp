@@ -1,7 +1,11 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
-using KeyGetter = std::function<int(vector<int> const& A, int i)>;
+using KeyGetter = function<int(vector<int> const& A, int i)>;
 
 void printV(vector<int> const& v);
 
