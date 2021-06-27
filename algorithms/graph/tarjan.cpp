@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 
-std::vector<std::vector<int>> toAdj(
+auto toAdj(
 		std::vector<std::vector<int>> const& edges,
 		int V,
 		bool directed = false)
@@ -74,7 +74,7 @@ void strongconnect(
 }
 
 // https://www.wikiwand.com/en/Tarjan%27s_strongly_connected_components_algorithm
-std::vector<std::vector<int>> tarjan(std::vector<std::vector<int>> edges, int V)
+auto tarjan(std::vector<std::vector<int>> edges, int V)
 {
 	auto adj = toAdj(edges, V, true);
 

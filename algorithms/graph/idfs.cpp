@@ -10,7 +10,7 @@ void printPath(std::vector<int> v)
 	std::cout << std::endl;
 }
 
-std::vector<std::vector<int>> toAdj(
+auto toAdj(
 		std::vector<std::vector<int>> const& edges,
 		int V,
 		bool directed = false)
@@ -38,7 +38,7 @@ void printAdj(std::vector<std::vector<int>> const& adj)
 	}
 }
 
-std::vector<int> idfs(std::vector<std::vector<int>> const& edges, int V, int S, int D) {
+auto idfs(std::vector<std::vector<int>> const& edges, int V, int S, int D) {
 	std::vector<std::vector<int>> adj = toAdj(edges, V);
 	std::vector<int> path, tmpPath;
 	std::vector<int> visited(V); visited[S]=1;

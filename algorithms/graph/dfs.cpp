@@ -10,7 +10,7 @@ void printPath(std::vector<int> v)
 	std::cout << std::endl;
 }
 
-std::vector<std::vector<int>> toAdj(
+auto toAdj(
 		std::vector<std::vector<int>> const& edges,
 		int V,
 		bool directed = false)
@@ -65,7 +65,7 @@ void dfsVisit(
 	stack.pop_back();
 }
 
-std::vector<int> dfs(std::vector<std::vector<int>> const& edges,
+auto dfs(std::vector<std::vector<int>> const& edges,
 		int V, int S, int D)
 {
 	std::vector<std::vector<int>> adj = toAdj(edges, V);

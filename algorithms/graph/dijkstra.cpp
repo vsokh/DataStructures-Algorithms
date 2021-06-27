@@ -38,8 +38,7 @@ void printAdj(std::vector<std::vector<std::vector<int>>> const& adj)
 }
 
 // https://www.wikiwand.com/en/Dijkstra%27s_algorithm
-std::vector<std::vector<std::vector<int>>>
-toAdj(std::vector<std::vector<int>> const& edges, int V)
+auto toAdj(std::vector<std::vector<int>> const& edges, int V)
 {
 	std::vector<std::vector<std::vector<int>>> adj(V);
 	for (auto const& uvw : edges)
@@ -63,7 +62,7 @@ void printAdj(std::vector<std::vector<int>> const& adj)
 	}
 }
 
-std::vector<int> makePath(std::vector<int> const& path, int D)
+auto makePath(std::vector<int> const& path, int D)
 {
 	std::vector<int> result;
 	while (D!=-1) {
@@ -74,8 +73,7 @@ std::vector<int> makePath(std::vector<int> const& path, int D)
 	return result;
 }
 
-std::vector<int>
-dijkstra(std::vector<std::vector<int>> const& edges,
+auto dijkstra(std::vector<std::vector<int>> const& edges,
 		int V, int S, int D)
 {
 	int const INF = 1e9;
