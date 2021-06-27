@@ -1,14 +1,14 @@
 #include <iostream>
 #include <algorithm>
-#include "../inc/heap.hpp"
+#include "../inc/binaryheap.hpp"
 
 // Resources:
 //   - https://www.wikiwand.com/en/Binary_heap#/Building_a_heap
 //   - https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/lecture-4-heaps-and-heap-sort/
-Heap::Heap(std::vector<int> _A) : A(_A)
+BinaryHeap::BinaryHeap(std::vector<int> _A) : A(_A)
 { heapify(); }
 
-void Heap::siftDown(int i)
+void BinaryHeap::siftDown(int i)
 {
 	int left	= 2*i+1;
 	int right	= 2*i+2;
@@ -26,7 +26,7 @@ void Heap::siftDown(int i)
 	}
 }
 
-void Heap::siftUp(int i)
+void BinaryHeap::siftUp(int i)
 {
 	int parent = i/2;
 	if (A[parent] < A[i]) {
@@ -35,19 +35,19 @@ void Heap::siftUp(int i)
 	}
 }
 
-void Heap::heapify()
+void BinaryHeap::heapify()
 {
 	for (int i = A.size()/2; i >= 0; --i)
 		siftDown(i);
 }
 
-void Heap::push(int x)
+void BinaryHeap::push(int x)
 {
 	A.push_back(x);
 	siftUp(A.size()-1);
 }
 
-void Heap::pop()
+void BinaryHeap::pop()
 {
 	if (A.empty()) return;
 
@@ -56,13 +56,13 @@ void Heap::pop()
 	siftDown(0);
 }
 
-int Heap::top()
+int BinaryHeap::top()
 { return A.front(); }
 
-bool Heap::empty()
+bool BinaryHeap::empty()
 { return A.empty(); }
 
-void Heap::print()
+void BinaryHeap::print()
 {
 	for (int i : A)
 		std::cout << i << " ";

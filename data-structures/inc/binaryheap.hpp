@@ -6,9 +6,9 @@
 //   - https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/lecture-4-heaps-and-heap-sort/
 
 // Implemented as MaxHeap
-class Heap {
+class BinaryHeap {
 	public:
-		Heap(std::vector<int> _A);
+		BinaryHeap(std::vector<int> _A);
 
 		void siftDown(int i);
 		void siftUp(int i);

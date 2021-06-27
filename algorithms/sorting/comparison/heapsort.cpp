@@ -1,4 +1,4 @@
-#include "../../../data-structures/inc/heap.hpp"
+#include "../../../data-structures/inc/binaryheap.hpp"
 #include <vector>
 #include <iostream>
 
@@ -6,7 +6,7 @@
 //   - https://www.wikiwand.com/en/Heapsort
 void heapsort(std::vector<int>& A)
 {
-	Heap h(A);
+	BinaryHeap h(A);
 	int end = A.size();
 	while (!h.empty()) {
 		A[--end] = h.top(); h.pop();
