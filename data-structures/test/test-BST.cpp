@@ -7,7 +7,7 @@ int main()
 	{
 		auto test = [](std::vector<int> v)
 		{
-			BinarySearchTree bst;
+			BinarySearchTree<int> bst;
 			for (auto i : v)
 			{
 				std::cout << "insert: " << i << std::endl;
@@ -37,7 +37,7 @@ int main()
 		};
 		std::vector<int> v{4,3,1,7,5};
 		std::cout << "Before: "; printV(v);
-		bstsort(v);
+		v = bstsort<int>(v);
 		std::cout << "After: "; printV(v);
 	}
 	return 0;
