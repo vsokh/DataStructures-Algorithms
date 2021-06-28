@@ -5,13 +5,13 @@
 #include <iostream>
 
 //https://www.wikiwand.com/en/Binary_search_tree
-
 template<typename T, typename Comp = std::less<T>>
 class BinarySearchTree
 {
 	private:
 		using Callback = std::function<void(T)>;
 
+		Comp comp;
 		struct Node
 		{
 			T key;
@@ -38,13 +38,13 @@ class BinarySearchTree
 			clear(root);
 		}
 
-		void insert(T x)
+		void insert(T const& x)
 		{ insert(root, x, nullptr); }
 
-		void remove(T x)
+		void remove(T const& x)
 		{ remove(root, x); }
 
-		bool contains(T x)
+		bool contains(T const& x)
 		{ return find(root, x) != nullptr; }
 
 		void inorderTraversal(Callback cb)
@@ -66,35 +66,35 @@ class BinarySearchTree
 				n = n->left;
 			return n;
 		}
-		Node* find(Node* root, T x)
+		Node* find(Node* root, T const& x)
 		{
 			Node *n = root;
 			while (n != nullptr && n->key != x)
 			{
-				if (x < n->key)
+				if (comp(x, n->key))
 					n = n->left;
 				else
 					n = n->right;
 			}
 			return n;
 		}
-		void insert(Node*& n, T x, Node* parent)
+		void insert(Node*& n, T const& x, Node* parent)
 		{
-			if (n != nullptr && x == n->key)
+			if (n != nullptr && !comp(x, n->key) && !comp(n->key, x))
 				return;
 			if (n == nullptr)
 				n = new Node(x, parent);
-			else if (x < n->key)
+			else if (comp(x, n->key))
 				insert(n->left, x, n);
 			else
 				insert(n->right, x, n);
 		}
-		void remove(Node*& n, T x)
+		void remove(Node*& n, T const& x)
 		{
 			// TODO: refactor
 			if (n == nullptr)
 				return;
-			if (x < n->key) {
+			if (comp(x, n->key)) {
 				remove(n->left, x);
 				return ;
 			}

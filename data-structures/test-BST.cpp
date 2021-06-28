@@ -1,5 +1,5 @@
-#include "../inc/BST.hpp"
 #include <iostream>
+#include "BST.hpp"
 
 int main()
 {
