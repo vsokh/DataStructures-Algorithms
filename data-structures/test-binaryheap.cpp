@@ -38,7 +38,7 @@ int main()
 		std::cout << "Heapsort.\n";
 		std::vector<int> v{4,3,1,7,5};
 		std::cout << "Before: "; printV(v);
-		heapsort<int>(v);
+		heapsort(v);
 		std::cout << "After: "; printV(v);
 	}
 	return 0;
